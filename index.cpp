@@ -1,26 +1,27 @@
 #include <iostream>
 #include <vector>
+#include <chrono>
 
 void merge(std::vector<int> &arr, int left, int mid, int right)
 {
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
+    int f1 = mid - left + 1;
+    int f2 = right - mid;
 
     // Create temporary arrays
-    std::vector<int> L(n1), R(n2);
+    std::vector<int> L(f1), R(f2);
 
     // Copy data to temporary arrays L[] and R[]
-    for (int i = 0; i < n1; i++)
+    for (int i = 0; i < f1; i++)
         L[i] = arr[left + i];
-    for (int j = 0; j < n2; j++)
+    for (int j = 0; j < f2; j++)
         R[j] = arr[mid + 1 + j];
 
-    // Merge the temporary arrays back into arr[left..right]
-    int i = 0;    // Initial index of first subarray
-    int j = 0;    // Initial index of second subarray
-    int k = left; // Initial index of merged subarray
+    // Merge the temporary arrays back into arr[left+right]
+    int i = 0;
+    int j = 0;
+    int k = left;
 
-    while (i < n1 && j < n2)
+    while (i < f1 && j < f2)
     {
         if (L[i] <= R[j])
         {
@@ -36,7 +37,7 @@ void merge(std::vector<int> &arr, int left, int mid, int right)
     }
 
     // Copy the remaining elements of L[], if there are any
-    while (i < n1)
+    while (i < f1)
     {
         arr[k] = L[i];
         i++;
@@ -44,7 +45,7 @@ void merge(std::vector<int> &arr, int left, int mid, int right)
     }
 
     // Copy the remaining elements of R[], if there are any
-    while (j < n2)
+    while (j < f2)
     {
         arr[k] = R[j];
         j++;
@@ -56,39 +57,68 @@ void mergeSort(std::vector<int> &arr, int left, int right)
 {
     if (left < right)
     {
-        // Same as (left+right)/2, but avoids overflow for large left and right
         int mid = left + (right - left) / 2;
 
-        // Sort first and second halves
+        // Sort both halves
         mergeSort(arr, left, mid);
         mergeSort(arr, mid + 1, right);
 
-        // Merge the sorted halves
+        // Merge the sorted arrays
         merge(arr, left, mid, right);
     }
 }
 
+std::vector<int> generateData(int size)
+{
+    std::vector<int> data;
+    for (int i = 0; i < size; ++i)
+    {
+        data.push_back(rand() % 1000); // Adjust range as needed
+    }
+    return data;
+}
+
+void printData(std::vector<int> &unsorted)
+{
+    // Print the original array
+    std::cout << "Unsorted array: ";
+    for (int i = 0; i < unsorted.size(); i++)
+    {
+        std::cout << unsorted[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
 int main()
 {
-    // Let's create an unsorted vector to test our merge sort
-    std::vector<int> unsorted = {12, 11, 13, 5, 6, 7};
+    std::cout << "Testing Merge Sort Algorithm Efficiency" << std::endl;
 
-    // Get the size of the vector
-    int n = unsorted.size();
+    std::vector<int> sizes = {1000, 10000, 100000, 1000000};
 
-    std::cout << "Unsorted array: ";
-    for (int i = 0; i < n; i++)
-        std::cout << unsorted[i] << " ";
-    std::cout << std::endl;
+    for (int size : sizes)
+    {
 
-    // Call the mergeSort function
-    mergeSort(unsorted, 0, n - 1);
+        // Create a vector, starting frmo 100 random integers
+        std::vector<int> unsorted = generateData(size);
+        int n = unsorted.size();
 
-    std::cout << "Sorted array: ";
-    for (int i = 0; i < n; i++)
-        std::cout << unsorted[i] << " ";
-    std::cout << std::endl;
+        // printData(unsorted);
 
-    std::cout << "Press a key to exit" << getchar() << std::endl;
+        // initialize the system clock
+        auto start = std::chrono::high_resolution_clock::now();
+
+        // Call the mergeSort function
+        mergeSort(unsorted, 0, n - 1);
+
+        // stop the clock after function ended
+        auto stop = std::chrono::high_resolution_clock::now();
+
+        // end - start = elapsed time
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+        std::cout << "Size: " << n << ", Time taken: " << duration.count() << " miliseconds" << std::endl;
+
+        // printData(unsorted);
+    }
     return 0;
 }
