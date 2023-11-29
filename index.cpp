@@ -89,5 +89,6 @@ int main()
         std::cout << unsorted[i] << " ";
     std::cout << std::endl;
 
+    std::cout << "Press a key to exit" << getchar() << std::endl;
     return 0;
 }
