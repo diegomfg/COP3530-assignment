@@ -81,8 +81,8 @@ std::vector<int> generateData(int size)
 // do not use unless the dataset is small enough to print in the console
 void printData(std::vector<int> &unsorted)
 {
-    // Print the original array
-    std::cout << "Unsorted array: ";
+    // Print the array
+    std::cout << "Array: ";
     for (int i = 0; i < unsorted.size(); i++)
     {
         std::cout << unsorted[i] << " ";
@@ -94,8 +94,8 @@ int main()
 {
     std::cout << "Testing Merge Sort Algorithm Efficiency" << std::endl;
 
-    // Note: These are way to big for printing, make them smaller if need to see sorted arrays
-    std::vector<int> sizes = {1000, 10000, 100000, 1000000};
+    // Note: These are way to big for printing, make them smaller if need to see arrays' content
+    std::vector<int> sizes = {1000, 10000, 100000, 1000000, 10000000};
 
     for (int size : sizes)
     {
