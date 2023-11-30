@@ -122,5 +122,7 @@ int main()
 
         // printData(unsorted);
     }
+    std::cout<<"Press a key to exit..."<<std::endl;
+    std::cin.get();
     return 0;
 }
