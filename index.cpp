@@ -7,7 +7,7 @@ void merge(std::vector<int> &arr, int left, int mid, int right)
     int f1 = mid - left + 1;
     int f2 = right - mid;
 
-    // Create temporary arrays
+    // Temp arrays
     std::vector<int> L(f1), R(f2);
 
     // Copy data to temporary arrays L[] and R[]
@@ -36,7 +36,7 @@ void merge(std::vector<int> &arr, int left, int mid, int right)
         k++;
     }
 
-    // Copy the remaining elements of L[], if there are any
+    // Handle rest of data for temp L
     while (i < f1)
     {
         arr[k] = L[i];
@@ -44,7 +44,7 @@ void merge(std::vector<int> &arr, int left, int mid, int right)
         k++;
     }
 
-    // Copy the remaining elements of R[], if there are any
+    // Handle rest of data for temp R
     while (j < f2)
     {
         arr[k] = R[j];
